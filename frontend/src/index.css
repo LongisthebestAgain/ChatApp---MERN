@@ -2,32 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Reset for all elements */
+* {
+  scrollbar-color: initial !important; /* Use `!important` to override the global rule */
+}
+
 body {
   background: url("./assets/abstract-luxury-gradient-blue-background-smooth-dark-blue-with-black-vignette-studio-banner.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-
 }
+body {
+  --sb-track-color: #232E33;
+  --sb-thumb-color: #050505cf;
+  --sb-size: 8px;
+}
+
 ::-webkit-scrollbar {
-  width: 12px;
-  background-color: #1a1a1a;
+  width: var(--sb-size);
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #1a1a1a;
+  background: var(--sb-track-color);
+  border-radius: 9px;
+  
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #444;
-  border-radius: 6px;
-  border: 2px solid #1a1a1a;
+  cursor: pointer;
+  background: var(--sb-thumb-color);
+  border-radius: 9px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #666;
-}
-
-::-webkit-scrollbar-corner {
-  background-color: #1a1a1a;
+  background: #505050;
 }
