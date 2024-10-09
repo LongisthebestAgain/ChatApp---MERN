@@ -29,6 +29,7 @@ const NoChatSelected = () => {
                 <p>Select a chat to start messaging </p>
                 <p>Select a chat to start messaging </p>
                 <TiMessages className='text-3xl md:text-6xl self-center' />
+                
             </div>
         </div>
     )
