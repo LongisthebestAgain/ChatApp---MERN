@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import toast from 'react-hot-toast';
+import { useAuthContext } from '../context/AuthContext';
 const useSignup = () => {
     const [loading, setLoading] = useState(false);
+    const { setAuthUser } = useAuthContext()
     const signup = async ({ fullName, username, password, confirmPassword, gender }) => {
         const success = handleInputErrors({ fullName, username, password, confirmPassword, gender })
         if (!success) return; // if there are errors, return nothing and stop the function 
         try {
             setLoading(true);
-            const res = await fetch('http://localhost:5000/api/auth/signup:', {
+            const res = await fetch("/api/auth/signup", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' //content-type is used to specify the type of data that is being sent to the server , and the data is in json format
@@ -16,7 +18,16 @@ const useSignup = () => {
             });
             const data = await res.json();
 
-            console.log(data);
+            toast.success("User created successfully")
+
+            if(data.error){
+                throw new Error(data.error)
+            }
+
+            localStorage.setItem("chat-user", JSON.stringify(data)); //If you're comfortable fetching user-specific data (like username, avatar, etc.) from the backend after each login or page refresh, you might not need to store anything in localStorage. You could just depend on the JWT stored in the HTTP-only cookie and make a server request to get user info.
+            console.log(data)   
+            setAuthUser(data);
+
 
         } catch (error) {
             toast.error(error.message)

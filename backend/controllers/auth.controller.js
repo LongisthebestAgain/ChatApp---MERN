@@ -3,9 +3,9 @@ import bcrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
 export const signup = async (req, res) => {
     try {
-        const { fullName, username, password, confrimPassword, gender } = req.body;
+        const { fullName, username, password, confirmPassword, gender } = req.body;
 
-        if (password !== confrimPassword) {
+        if (password !== confirmPassword) {
             return res.status(400).json({ error: "Password and Confirm Password should be same" });
         }
 
