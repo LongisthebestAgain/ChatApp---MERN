@@ -12,14 +12,14 @@ const SignUp = () => {
     password: '',
     confirmPassword: '',
     gender: ''
-  })  
-  const {signup, loading } = useSignup();
-  
+  })
+  const { signup, loading } = useSignup();
+
   const handleCheckboxChange = (gender) => {
     setInputs({ ...inputs, gender })
   }
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     await signup(inputs);
   }
@@ -134,7 +134,12 @@ const SignUp = () => {
           <Link to={'/login'} className='text-sm hover:text-blue-600 hover:underline pl-1 mt-2 inline-block'>Already have an account?</Link>
 
           <div>
-            <button className='btn btn-md w-full mt-4'>SignUp</button>
+
+            <button className='btn btn-md w-full mt-4' disabled={loading}>
+
+              {loading ? <span className='loading loading-spinner'></span> : "Sign Up"}
+
+            </button>
           </div>
         </form>
       </div>
