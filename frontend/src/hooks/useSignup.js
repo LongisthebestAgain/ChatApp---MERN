@@ -18,11 +18,11 @@ const useSignup = () => {
             });
             const data = await res.json();
 
-            toast.success("User created successfully")
-
+            
             if(data.error){
                 throw new Error(data.error)
             }
+            toast.success("User created successfully")
 
             localStorage.setItem("chat-user", JSON.stringify(data)); //If you're comfortable fetching user-specific data (like username, avatar, etc.) from the backend after each login or page refresh, you might not need to store anything in localStorage. You could just depend on the JWT stored in the HTTP-only cookie and make a server request to get user info.
             console.log(data)   
