@@ -12,7 +12,7 @@ const Login = () => {
             toast.error("Username and password are required!");
             return;
         }
-        await login(username, password )
+        await login(username, password)
     }
 
     return (
@@ -54,7 +54,7 @@ const Login = () => {
                             <input type="password" className="grow" placeholder='Password'
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-
+                                
                             />
                         </label>
                         </div>
@@ -62,7 +62,7 @@ const Login = () => {
                     </div>
                     <div>
                         <button className='btn btn-md w-full mt-4' disabled={loading}>
-                        {loading ? <span className='loading loading-spinner'></span> : "Login"}
+                            {loading ? <span className='loading loading-spinner'></span> : "Login"}
                         </button>
                     </div>
                 </form>
