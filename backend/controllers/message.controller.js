@@ -10,9 +10,9 @@ export const sendMessage = async (req, res) => {
             participants: {
                 $all: [senderId, receiverId],
             }
-        })
+        });
 
-        if(!conversation){
+        if (!conversation) {
             conversation = await Conversation.create({
                 participants: [senderId, receiverId],
             });
@@ -23,23 +23,23 @@ export const sendMessage = async (req, res) => {
             receiverId,
             message,
         });
-        
-        if(newMessage){
-            conversation.messages.push(newMessage); //push the message to conversation
-            res.status(200).json({newMessage}); //send the message to client side 
-        }
-        await Promise.all([newMessage.save(), conversation.save()]); // this will save the message and conversation to the database
-        
+        if (newMessage) {
+			conversation.messages.push(newMessage._id);
+		}
 
+        await Promise.all([newMessage.save(), conversation.save()]); // this will save the message and conversation to the database
+
+        res.status(201).json(newMessage); // send the new message to the client side as a response 
     } catch (error) {
         console.log("Error in sendMessage controller: ", error.message);
         res.status(500).json({ error: "internal server error" });
+       
     }
 };
 
-export const getMessages = async (req , res) =>{
+export const getMessages = async (req, res) => {
     try {
-        const {id: userToChatId } = req.params;
+        const { id: userToChatId } = req.params;
         const senderId = req.user._id;
 
         const conversation = await Conversation.findOne({
@@ -49,13 +49,11 @@ export const getMessages = async (req , res) =>{
             }
         }).populate("messages"); // populate the messages mean get the messages from the database and send it to the client side ,why populate? because we have a reference to the message model in the conversation model
         // not reference but we have a field in the conversation model that is an array of messages
-        if(!conversation){
-            return res.status(200).json({messages: []}); // if there is no conversation then return an empty array
-        }
-        const messages = conversation.messages; 
-        
-        res.status(200).json({messages}); // send the messages to the client side as a response
+        if (!conversation) return res.status(200).json([]);
 
+        const messages = conversation.messages;
+
+        res.status(200).json( messages ); // send the messages to the client side as a response
     } catch (error) {
         console.log("Error in getMessages controller: ", error.message);
         res.status(500).json({ error: "internal server error" });
