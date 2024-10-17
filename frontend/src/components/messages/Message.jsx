@@ -10,7 +10,7 @@ const Message = ({ message }) => {
     const bubbleBgColor = fromMe ? "bg-blue-500" : "";
     const formattedTime = extractTime(message.createdAt)
     return (
-        <div className={`chat ${chatClassName}`}>
+        <div className={`chat ${chatClassName} `}>
             <div className="chat-image avatar" >
                 <div className="w-10 rounded-full">
                     <img src={profilePic} alt="user avatar" />

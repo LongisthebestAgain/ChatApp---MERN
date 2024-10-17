@@ -7,7 +7,6 @@ const Messages = () => {
   const { messages, loading } = useGetMessages();
   useListenMessages();
   const lastMessageRef = useRef();
-  console.log(lastMessageRef)
   useEffect(()=>{
     setTimeout(()=>{
       lastMessageRef.current?.scrollIntoView({behavior:"instant"});
@@ -16,7 +15,6 @@ const Messages = () => {
 
   return (
     <div className="px-4 flex-1 overflow-auto">
-      {console.log(messages)}
       {!loading && messages.length > 0 && messages.map((message) => (
         <div
           
