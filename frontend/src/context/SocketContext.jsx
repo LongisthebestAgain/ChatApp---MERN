@@ -1,9 +1,12 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 import { useAuthContext } from "./AuthContext";
 import io from "socket.io-client";
-import { query } from "express";
 
 export const SocketContext = createContext();
+
+export const useSocketContext = () => {
+    return useContext(SocketContext);
+}
 
 export const SocketContextProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
@@ -11,26 +14,30 @@ export const SocketContextProvider = ({ children }) => {
     const { authUser } = useAuthContext();
     useEffect(() => {
         if (authUser) {
-            const socket = io("http://localhost:5000"); // establishes a WebSocket connection to a server. The server URL is passed as an argument to the io function. 
-            query: {
-                userId: authUser._id //is used to pass the authenticated user's unique identifier to the server when establishing a WebSocket connection or making an API request.
-            }
-            setSocket(socket);//The socket state is updated to hold the connection instance.
-            
-            socket.on("getOnlineUser")
-            
-            return () => socket.close(); //Cleanup Function: his function is executed when the component is about to unmount , This prevents the app from holding open WebSocket connections that aren't needed
+            const socket = io("http://localhost:5000", {
+                query: { userId: authUser._id }, // pass the authenticated user's unique ID
+            });
+            setSocket(socket); // Save socket connection in state
+
+            socket.on("getOnlineUsers", (users) => {
+                setOnlineUsers(users); // Update online users list
+            });
+
+            return () => {
+                if (socket) {
+                    socket.close(); // Close socket on cleanup to prevent open connections
+                }
+            };
         } else {
-            socket.close();
-            setSocket(null);
+            // Check if socket exists before trying to close it
+            if (socket) {
+                socket.close();
+            }
+            setSocket(null); // Clear the socket state when the user is not authenticated
         }
-
-    }, []);
+    }, [authUser]);
     return (
-
-
-
-        <SocketContext.Provider value={{}}>
+        <SocketContext.Provider value={{ socket, onlineUsers }}>
             {children}
         </SocketContext.Provider>
     )
