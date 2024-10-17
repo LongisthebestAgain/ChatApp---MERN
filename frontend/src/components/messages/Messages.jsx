@@ -1,9 +1,11 @@
 import Message from "./Message"
 import useGetMessages from "../../hooks/useGetMessages"
 import MessageSkeleton from "../skeletons/MessageSkeleton";
+import useListenMessages from "../../hooks/useListenMessages";
 import { useEffect, useRef } from "react";
 const Messages = () => {
   const { messages, loading } = useGetMessages();
+  useListenMessages();
   const lastMessageRef = useRef();
   console.log(lastMessageRef)
   useEffect(()=>{
@@ -14,6 +16,7 @@ const Messages = () => {
 
   return (
     <div className="px-4 flex-1 overflow-auto">
+      {console.log(messages)}
       {!loading && messages.length > 0 && messages.map((message) => (
         <div
           
