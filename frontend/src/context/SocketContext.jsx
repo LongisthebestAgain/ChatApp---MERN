@@ -14,7 +14,7 @@ export const SocketContextProvider = ({ children }) => {
     const { authUser } = useAuthContext();
     useEffect(() => {
         if (authUser) {
-            const socket = io("http://localhost:5000", {
+            const socket = io("https://chatapp-mern-iupl.onrender.com", {
                 query: { userId: authUser._id }, // pass the authenticated user's unique ID
             });
             setSocket(socket); // Save socket connection in state
