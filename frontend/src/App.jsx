@@ -1,4 +1,4 @@
-import Home from './pages/home/home'
+import Home from './pages/home/Home.jsx'
 import Login from './pages/login/login'
 import SignUp from './pages/signup/signup'
 import { Toaster } from 'react-hot-toast'
